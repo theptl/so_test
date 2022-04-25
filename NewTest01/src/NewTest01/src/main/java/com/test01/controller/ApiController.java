@@ -17,6 +17,40 @@ import com.test01.service.BoardService;
 public class ApiController {
 	
 	@Autowired private BoardService boardService;
+
+	
+	@RequestMapping(value="/getpagingdata", method=RequestMethod.GET)	
+	public HashMap<String,Object> getpagingdata(HttpServletRequest request) {
+		
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));		
+		int displayPageNoCount = 3;
+		int itemCountPerPage  = 5;
+		
+		int totalListCount = boardService.getBoardListCount();
+		
+		int lastPage = (int) Math.ceil((double)totalListCount / (double)itemCountPerPage);
+		
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		
+		int viewEndPage = ((int) Math.ceil((double)pageNo / (double)displayPageNoCount)) * displayPageNoCount;		
+		if (viewEndPage > lastPage) {
+			viewEndPage = lastPage;
+			pageNo = lastPage;
+		}
+		
+		int viewStartPage = viewEndPage - displayPageNoCount + 1;
+		if (viewStartPage < 1) {
+			viewStartPage = 1;
+			pageNo = 1;
+		}
+
+		result.put("viewStartPage", viewStartPage);
+		result.put("viewEndPage", viewEndPage);
+		result.put("pageNo", pageNo);
+
+		return result;
+
+	}
 	
 	
 	
@@ -24,9 +58,19 @@ public class ApiController {
 	public List<HashMap<String,Object>> getboardlist(HttpServletRequest request) {
 		
 		String orderby = request.getParameter("orderby");
-			
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		
+		int itemCountPerPage  = 5;
+		int viewMinIdx = (pageNo * itemCountPerPage ) - itemCountPerPage;
+		
+		if (viewMinIdx < 0) {
+			viewMinIdx = 0;
+		}
+		
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("orderby", orderby);
+		param.put("viewMinIdx", viewMinIdx);
+		param.put("itemCountPerPage", itemCountPerPage);
 		
 		List<HashMap<String, Object>> result = boardService.getBoardList(param);
 		
@@ -104,7 +148,7 @@ public class ApiController {
 		
 		boardService.createDetailData(param);
 
-	}		
+	}
 	
 
 }

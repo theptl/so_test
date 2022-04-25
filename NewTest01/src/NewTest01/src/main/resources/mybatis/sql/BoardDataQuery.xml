@@ -3,10 +3,16 @@
 
 <mapper namespace="com.test01.repository.BoardRepository">
 
+	<select id="getBoardListCount" resultType="Integer">
+		SELECT COUNT(idx) 
+		FROM board;
+	</select>
+
     <select id="getBoardList" resultType="hashmap" parameterType="hashmap">
 	  	SELECT * 
 	  	FROM board 
-	  	ORDER BY idx DESC;
+	  	ORDER BY idx
+	  	limit #{viewMinIdx}, #{itemCountPerPage};
 	</select>
 	
 	<select id="delBoardList" parameterType="hashmap"> 

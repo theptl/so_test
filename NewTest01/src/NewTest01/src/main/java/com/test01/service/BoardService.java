@@ -13,6 +13,12 @@ public class BoardService {
 	
 	@Autowired private BoardRepository boardRepo;
 	
+	public int getBoardListCount() {
+		int result = boardRepo.getBoardListCount();
+		return result;
+	}
+	
+	
 	public List<HashMap<String, Object>> getBoardList(HashMap<String, Object> cond) {
 		List<HashMap<String, Object>> result = boardRepo.getBoardList(cond);
 		return result;

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository("boardRepository")
 public interface BoardRepository {
 	
+	public int getBoardListCount();
+	
 	public List<HashMap<String, Object>> getBoardList(HashMap<String, Object> cond);
 	
 	public void delBoardList(HashMap<String, Object> cond);

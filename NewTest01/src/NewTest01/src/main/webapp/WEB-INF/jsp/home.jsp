@@ -25,9 +25,16 @@
 	<body>
 	
 		<br/> 시작 페이지 <br/><br/>
-		<button onclick='listDel()'> 선택 삭제 </button>
-		
+		<button onclick='listDel()'> 선택 삭제 </button>		
 		<br/><br/>
+		
+		<div>
+			<button onclick="boardPagingRefresh(pagingData.pageNo - 1)"> << </button>
+			<button> --- </button>
+			<button id="pageNo"> Num </button>
+			<button> --- </button>
+			<button onclick="boardPagingRefresh(pagingData.pageNo + 1)"> >> </button>
+		</div>
 		
 		<table id="boardListTitle" border="1" width="800">
 		
@@ -65,10 +72,85 @@
 	<script type="text/javascript">
 	
 		// 페이지 로딩 시, 게시글 목록 출력 함수 출력.
-		boardListRefresh("idx");
+		var pageNo = 1;
+		
+		boardPagingRefresh(pageNo);
 		
 		
 <!-- -------------------------------------------------------------------------------------------------------------- -->
+
+
+	// 게시판 페이징 정보 출력/갱신.
+	function boardPagingRefresh(_pageNo) {
+
+		$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/api/getpagingdata",
+				cache: false,
+				async: false,
+				data: {
+					pageNo : _pageNo
+				},
+				success: function (result) {
+                    pagingData = result;
+				}
+			
+		});
+			
+		document.getElementById("pageNo").innerText = pagingData.pageNo;
+
+		boardListRefresh("idx", pagingData.pageNo);
+		
+	}
+
+
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+
+
+	// 게시글 목록 출력/갱신.
+	function boardListRefresh(_orderby, _pageNo) {
+	
+		$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/api/getboardlist",
+				cache: false,
+				async: false,
+				data: {
+					orderby : _orderby,
+					pageNo : _pageNo
+				},
+				success: function (result) {
+	                boardListData = result;
+				}
+			
+		});
+		
+		//console.log(boardListData);
+		
+		$("#boardList").empty();
+		
+		var html = $("#boardList").html();
+		
+		$.each(boardListData, function(index, item){
+		
+			html += "<tr>"
+					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.idx + "' value='" + item.idx + "' /> </td>"
+					+ "<td>" + item.idx + "</td>"
+					+ "<td>" + item.title + "</td>"
+					+ "<td> <a href='./detailpage?idx=" + item.idx + "';'>" + item.content + "</td>"
+					+ "<td>" + item.writer + "</td>"
+					+ "<td>" + item.regdate.replace('T',' ').substring(0, 19) + "</td>"
+					+ "<td> <button onclick=" + "location.href='./modifypage?idx=" + item.idx + "';>" + "바로가기 </button> </td>"
+					+ "</tr>";
+		})
+		
+		$("#boardList").html(html);
+		
+	}
+
+
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+
 
 	// 선택한 게시글 삭제
 	function listDel() {
@@ -113,7 +195,7 @@
 					}	
 		});
 		
-		boardListRefresh("idx");
+		boardListRefresh("idx", "1");
 		
 		alert("선택한 게시글이 삭제되었습니다.");
 		
@@ -136,48 +218,6 @@
 
 <!-- -------------------------------------------------------------------------------------------------------------- -->
 
-	// 게시글 목록 출력/갱신.
-	function boardListRefresh(_orderby) {
-
-		$.ajax({
-					type: "GET",
-					url: "http://localhost:8080/api/getboardlist",
-					cache: false,
-					async: false,
-					data: {
-						orderby : _orderby
-					},
-					success: function (result) {
-                        boardListData = result;
-					}
-				
-		});
-		
-		//console.log(boardListData);
-		
-		$("#boardList").empty();
-		
-		var html = $("#boardList").html();
-		
-		$.each(boardListData, function(index, item){
-		
-			html += "<tr>"
-					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.idx + "' value='" + item.idx + "' /> </td>"
-					+ "<td>" + item.idx + "</td>"
-					+ "<td>" + item.title + "</td>"
-					+ "<td> <a href='./detailpage?idx=" + item.idx + "';'>" + item.content + "</td>"
-					+ "<td>" + item.writer + "</td>"
-					+ "<td>" + item.regdate.replace('T',' ').substring(0, 19) + "</td>"
-					+ "<td> <button onclick=" + "location.href='./modifypage?idx=" + item.idx + "';>" + "바로가기 </button> </td>"
-					+ "</tr>";
-		})
-		
-		$("#boardList").html(html);
-		
-	}
-
-
-<!-- -------------------------------------------------------------------------------------------------------------- -->
 		
 	// 상세 페이지로 이동	
 	function onclick_moveDetail(idx) {
