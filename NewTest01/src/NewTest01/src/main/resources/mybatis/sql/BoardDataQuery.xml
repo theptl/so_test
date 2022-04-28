@@ -3,19 +3,25 @@
 
 <mapper namespace="com.test01.repository.BoardRepository">
 
-	<select id="getBoardListCount" resultType="Integer">
+	<select id="GetBoardListCount" resultType="Integer">
 		SELECT COUNT(idx) 
-		FROM board;
+		FROM board		
+		<if test="searchword != null">
+			WHERE title LIKE CONCAT('%',#{searchword},'%') or content LIKE CONCAT('%',#{searchword},'%')		
+		</if>
 	</select>
 
-    <select id="getBoardList" resultType="hashmap" parameterType="hashmap">
+    <select id="GetBoardList" resultType="hashmap" parameterType="hashmap">
 	  	SELECT * 
-	  	FROM board 
-	  	ORDER BY idx
-	  	limit #{viewMinIdx}, #{itemCountPerPage};
+	  	FROM board
+		<if test="searchword != null">
+			WHERE title LIKE CONCAT('%',#{searchword},'%') or content LIKE CONCAT('%',#{searchword},'%')		
+		</if>
+	  	ORDER BY #{orderby}
+	  	limit #{viewMinIdx}, #{itemCountPerPage}
 	</select>
 	
-	<select id="delBoardList" parameterType="hashmap"> 
+	<delete id="DelBoardList" parameterType="hashmap"> 
 	  	DELETE
 	  	FROM board
 		WHERE idx IN
@@ -23,15 +29,15 @@
 		      open="(" separator="," close=")">
 		        #{delidx}
 		  </foreach>
-	</select>
+	</delete>
 	
-    <select id="getDetailData" resultType="hashmap" parameterType="hashmap">
+    <select id="GetDetailData" resultType="hashmap" parameterType="hashmap">
 	  	SELECT * 
 	  	FROM board 
-	  	WHERE idx = #{idx};
+	  	WHERE idx = #{idx}
 	</select>
 
-    <update id="modifyDetailData" parameterType="hashmap">
+    <update id="ModifyDetailData" parameterType="hashmap">
     	UPDATE board
     	<set>
     		<if test="modifyTitle != null">
@@ -47,9 +53,9 @@
    		where idx = #{modifyIdx}   		
 	</update>
 	
-	<select id="createDetailData" parameterType="hashmap">  	
+	<insert id="CreateDetailData" parameterType="hashmap">  	
 	  	INSERT INTO board (title, content, writer, regdate)
 	  	VALUES (#{createTitle}, #{createContent}, #{createWriter}, #{createRegdate})
-	</select>
+	</insert>
  
 </mapper>

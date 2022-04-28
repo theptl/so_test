@@ -20,28 +20,41 @@ public class ApiController {
 
 	
 	@RequestMapping(value="/getpagingdata", method=RequestMethod.GET)	
-	public HashMap<String,Object> getpagingdata(HttpServletRequest request) {
+	public HashMap<String,Object> GetPagingData(HttpServletRequest request) {
 		
-		int pageNo = Integer.parseInt(request.getParameter("pageNo"));		
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		if(pageNo < 1) {
+			pageNo = 1;
+		}
+		
+		String searchword = request.getParameter("searchword");
+		
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("searchword", searchword);
+		
+		int totalListCount = boardService.GetBoardListCount(param);
+		
+		
 		int displayPageNoCount = 3;
 		int itemCountPerPage  = 5;
-		
-		int totalListCount = boardService.getBoardListCount();
 		
 		int lastPage = (int) Math.ceil((double)totalListCount / (double)itemCountPerPage);
 		
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		
 		int viewEndPage = ((int) Math.ceil((double)pageNo / (double)displayPageNoCount)) * displayPageNoCount;		
-		if (viewEndPage > lastPage) {
-			viewEndPage = lastPage;
+		if (pageNo > lastPage) {
 			pageNo = lastPage;
+		} if(viewEndPage > lastPage) {
+			viewEndPage = lastPage;
 		}
 		
 		int viewStartPage = viewEndPage - displayPageNoCount + 1;
 		if (viewStartPage < 1) {
 			viewStartPage = 1;
 			pageNo = 1;
+		} else if (lastPage - viewEndPage < lastPage % displayPageNoCount) {			
+			viewStartPage = lastPage - (lastPage % displayPageNoCount) + 1;	
 		}
 
 		result.put("viewStartPage", viewStartPage);
@@ -55,10 +68,11 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/getboardlist", method=RequestMethod.GET)	
-	public List<HashMap<String,Object>> getboardlist(HttpServletRequest request) {
+	public List<HashMap<String,Object>> GetBoardList(HttpServletRequest request) {
 		
 		String orderby = request.getParameter("orderby");
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		String searchword = request.getParameter("searchword");
 		
 		int itemCountPerPage  = 5;
 		int viewMinIdx = (pageNo * itemCountPerPage ) - itemCountPerPage;
@@ -71,8 +85,9 @@ public class ApiController {
 		param.put("orderby", orderby);
 		param.put("viewMinIdx", viewMinIdx);
 		param.put("itemCountPerPage", itemCountPerPage);
+		param.put("searchword", searchword);
 		
-		List<HashMap<String, Object>> result = boardService.getBoardList(param);
+		List<HashMap<String, Object>> result = boardService.GetBoardList(param);
 		
 		return result;
 
@@ -81,30 +96,30 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/delboardlist", method=RequestMethod.PUT)	
-	public void delboardlist(HttpServletRequest request) {
+	public void DelBoardList(HttpServletRequest request) {
 		
-		String _delidx = request.getParameter("delidx");
-		String[] delidxArray = _delidx.split(",");
-		delidxArray.toString();
+		String _delIdx = request.getParameter("delIdx");
+		String[] delIdxArray = _delIdx.split(",");
+		delIdxArray.toString();
 		
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("delidxArray", delidxArray);
+		param.put("delidxArray", delIdxArray);
 		
-		boardService.delBoardList(param);
+		boardService.DelBoardList(param);
 	
 	}	
 	
 	
 	
 	@RequestMapping(value="/getdetaildata", method=RequestMethod.GET)	
-	public HashMap<String,Object> getdetaildata(HttpServletRequest request) {
+	public HashMap<String,Object> GetDetailData(HttpServletRequest request) {
 		
 		String idx = request.getParameter("idx");
 			
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("idx", idx);
 		
-		HashMap<String, Object> result = boardService.getDetailData(param);
+		HashMap<String, Object> result = boardService.GetDetailData(param);
 		
 		return result;
 
@@ -113,7 +128,7 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/modifydetaildata", method=RequestMethod.POST)	
-	public void modifydetaildata(HttpServletRequest request) {
+	public void ModifyDetailData(HttpServletRequest request) {
 		
 		String idx = request.getParameter("idx");
 		String title = request.getParameter("title");
@@ -126,13 +141,13 @@ public class ApiController {
 		param.put("modifyContent",content);
 		param.put("modifyRegdate", regdate);
 		
-		boardService.modifyDetailData(param);
+		boardService.ModifyDetailData(param);
 
 	}	
 	
 	
 	
-	@RequestMapping(value="/createdetaildata", method=RequestMethod.POST)	
+	@RequestMapping(value="/CreateDetailData", method=RequestMethod.POST)	
 	public void createdetaildata(HttpServletRequest request) {
 		
 		String title = request.getParameter("title");
@@ -146,7 +161,7 @@ public class ApiController {
 		param.put("createWriter",writer);
 		param.put("createRegdate", regdate);
 		
-		boardService.createDetailData(param);
+		boardService.CreateDetailData(param);
 
 	}
 	
