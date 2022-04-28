@@ -32,7 +32,9 @@ public class BoardController {
 		
 		String searchword = request.getParameter("searchword");
 		
-		HashMap<String,Object> pagingData = GetPagingData(pageNo, searchword);		
+		HashMap<String,Object> pagingData = GetPagingData(pageNo, searchword);
+		
+		pageNo = (int) pagingData.get("pageNo");
 		
 		List<HashMap<String,Object>> boardListData = GetBoardList(pageNo, searchword);
 		
@@ -78,6 +80,7 @@ public class BoardController {
 		result.put("viewEndPage", viewEndPage);
 		result.put("pageNo", pageNo);
 		result.put("searchword", searchword);
+		result.put("lastPage", lastPage);
 
 		return result;
 

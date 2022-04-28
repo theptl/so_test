@@ -26,7 +26,7 @@
 	
 		<br/> 시작 페이지 - GET URL 방식
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		<button onclick=location.href='/board';> Ajax 방식 페이지로 이동 </button>
+		<button onclick=location.href='/';> Ajax 방식 페이지로 이동 </button>
 		<br/><br/><br/><br/>
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 		<button onclick='ListDel()'> 선택 삭제 </button>
@@ -100,36 +100,87 @@
 		
 		document.getElementById("pageNoLog").innerText = "pageNo = [ " + ${pagingData.pageNo} + " ]";
 		document.getElementById("searchwordLog").innerText = "searchword = [ " + ${pagingData.searchword} + " ]";
+		
+		var boardListData = [];
 
-		BoardListRefresh("${boardListData}");		
+		<c:forEach items="${boardListData}" var="item">
+		
+			var data = {
+				idx : "${item.idx}",
+				title : "${item.title}",
+				content : "${item.content}",
+				writer : "${item.writer}",
+				regdate : "${item.regdate}"
+			};
+			
+			boardListData.push(data);
+			
+		</c:forEach>
+
+		BoardListRefresh(boardListData);		
 
 		
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+		
+		
+		function BoardPagingRefreshPrev() {
+			
+			_pageNo = Number(document.getElementById("pageNo").innerText) - 1;
+
+			location.href = "/board?pageNo=" + _pageNo + "&searchword=" + "${pagingData.searchword}";
+		}
+		
+		
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+
+
+		function BoardPagingRefreshNext() {
+			
+			_pageNo = Number(document.getElementById("pageNo").innerText) + 1;
+			
+			if(_pageNo > "${pagingData.lastPage}") {
+				_pageNo = "${pagingData.lastPage}"				
+			}
+
+			location.href = "/board?pageNo=" + _pageNo + "&searchword=" + "${pagingData.searchword}";
+		}
+
+
+<!-- -------------------------------------------------------------------------------------------------------------- -->
+
+
+		function Search() {
+			
+			_searchword = document.getElementById("searchwordInput").value;	
+			
+			_pageNo = 1;
+			
+			location.href = "/board?pageNo=" + _pageNo + "&searchword=" + _searchword;
+		}
+
+
 <!-- -------------------------------------------------------------------------------------------------------------- -->
 
 
 	// 게시글 목록 출력/갱신.
 	function BoardListRefresh(boardListData) {
 		
-		console.log(boardListData);
-		
 		$("#boardList").empty();
 		
 		var html = $("#boardList").html();
 		
-		boardListData.forEach(function(item){
-			consol.log(item.idx);
+		$.each(boardListData, function(index, item){
+		
+			html += "<tr>"
+					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.idx + "' value='" + item.idx + "' /> </td>"
+					+ "<td>" + item.idx + "</td>"
+					+ "<td>" + item.title + "</td>"
+					+ "<td> <a href='/detailpage?idx=" + item.idx + "';'>" + item.content + "</td>"
+					+ "<td>" + item.writer + "</td>"
+					+ "<td>" + item.regdate.replace('T',' ').substring(0, 19) + "</td>"
+					+ "<td> <button onclick=" + "location.href='/modifypage?idx=" + item.idx + "';>" + "바로가기 </button> </td>"
+					+ "</tr>";
 		})
-			
-//			html += "<tr>"
-//					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.idx + "' value='" + item.idx + "' /> </td>"
-//					+ "<td>" + item.idx + "</td>"
-//					+ "<td>" + item.title + "</td>"
-//					+ "<td> <a href='/detailpage?idx=" + item.idx + "';'>" + item.content + "</td>"
-//					+ "<td>" + item.writer + "</td>"
-//					+ "<td>" + item.regdate.replace('T',' ').substring(0, 19) + "</td>"
-//					+ "<td> <button onclick=" + "location.href='/modifypage?idx=" + item.idx + "';>" + "바로가기 </button> </td>"
-//					+ "</tr>";
-//		})
 		
 		$("#boardList").html(html);
 		
