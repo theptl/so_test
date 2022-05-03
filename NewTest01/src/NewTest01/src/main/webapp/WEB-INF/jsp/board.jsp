@@ -106,11 +106,11 @@
 		<c:forEach items="${boardListData}" var="item">
 		
 			var data = {
-				idx : "${item.idx}",
-				title : "${item.title}",
-				content : "${item.content}",
-				writer : "${item.writer}",
-				regdate : "${item.regdate}"
+				idx : "${item.IDX}",
+				title : "${item.TITLE}",
+				content : "${item.CONTENT}",
+				writer : "${item.WRITER}",
+				regdate : "${item.REGDATE}"
 			};
 			
 			boardListData.push(data);
@@ -224,7 +224,7 @@
 		
 		$.ajax({
 					type: "PUT",
-					url: "http://localhost:8080/api/delboardlist",
+					url: "/api/delboardlist",
 					cache: false,
 					async: false,
 					data: {
@@ -232,7 +232,7 @@
 					}	
 		});
 		
-		boardListRefresh("idx", "1");
+		BoardPagingRefresh("", "");
 		
 		alert("선택한 게시글이 삭제되었습니다.");
 		

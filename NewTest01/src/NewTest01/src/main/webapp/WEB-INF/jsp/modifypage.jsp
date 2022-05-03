@@ -60,7 +60,17 @@
 		</table>
 		
 		<br/><br/>
-		<button> <a onclick="inputDataCheck()"> 게시글 수정!! </a> </button>
+		<button> <a onclick="inputDataCheckModify()"> 게시글 수정!! </a> </button>
+		
+		
+		<iframe id="iframe1" name="iframe1" style="display:none"></iframe>		
+		
+		<form id="modifyform" action="/api/modifydetaildataform" method="POST" style="display:none;" target="iframe1">
+			<input name="idx" type="text" value="idx" />
+			<input name="title" type="text" value="title" />
+			<input name="content" type="text" value="content" />
+			<input name="regdate" type="text" value="regdate" />
+		</form>
 		
 	</body>
 
@@ -75,40 +85,41 @@
 		
 		// 수정 페이지 호출.
 		boardModifyRefresh(idx);
+		
 
 <!-- -------------------------------------------------------------------------------------------------------------- -->
 
 
-	// 데이터 변경 확인.
-	// 변경 데이터 적용.
-	function inputDataCheck() {
+	// 데이터 변경 확인 & 적용.
+	function inputDataCheckModify() {
+		
+//		console.log(document.getElementById("input_title").value);
+//		console.log(detailData.TITLE );
+//		console.log(document.getElementById("input_content").value);
+//		console.log(detailData.CONTENT);
 	
-		if (document.getElementById("input_title").value == detailData.title && document.getElementById("input_content").value == detailData.content){
+		if (document.getElementById("input_title").value == detailData.TITLE && 
+				document.getElementById("input_content").value == detailData.CONTENT){
 			alert("변경된 내용이 없습니다.");
 			return;
 			
 		} else{
 			
 			_idx = document.getElementById("input_idx").innerText;
-			_title = document.getElementById("input_title").value;
-			_content = document.getElementById("input_content").value;
 			_regdate = new Date().toISOString().slice(0, 19).replace('T',' ');
-					
-			$.ajax({
-						type: "POST",
-						url: "http://localhost:8080/api/modifydetaildata",
-						cache: false,
-						async: false,
-						data: {
-							idx : _idx,
-							title : _title,
-							content : _content,
-							regdate : _regdate
-						}
-			});
 			
-			boardModifyRefresh(idx);
+			$("input[name=idx]").val(_idx);
+			$("input[name=title]").val($("#input_title").val());
+			$("input[name=content]").val($("#input_content").val());
+			$("input[name=regdate]").val(_regdate);
 			
+//			console.log($("input[name=idx]").val());
+//			console.log($("input[name=title]").val());
+//			console.log($("input[name=content]").val());
+//			console.log($("input[name=regdate]").val());			
+			
+			document.getElementById('modifyform').submit();
+
 			alert("수정한 내용이 적용되었습니다.");
 
 		}
@@ -126,7 +137,7 @@
 
 		$.ajax({
 					type: "GET",
-					url: "http://localhost:8080/api/getdetaildata",
+					url: "/api/getdetaildata",
 					cache: false,
 					async: false,
 					data: {
@@ -138,11 +149,11 @@
 				
 		});		
 		
-		document.getElementById("input_idx").innerText = detailData.idx;
-		document.getElementById("input_title").value = detailData.title;
-		document.getElementById("input_content").value = detailData.content;
-		document.getElementById("input_writer").innerText = detailData.writer;
-		document.getElementById("input_regdate").innerText = detailData.regdate.replace('T',' ').substring(0, 19);
+		document.getElementById("input_idx").innerText = detailData.IDX;
+		document.getElementById("input_title").value = detailData.TITLE;
+		document.getElementById("input_content").value = detailData.CONTENT;
+		document.getElementById("input_writer").innerText = detailData.WRITER;
+		document.getElementById("input_regdate").innerText = detailData.REGDATE.replace('T',' ').substring(0, 19);
 				
 	}
 

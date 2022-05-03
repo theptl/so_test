@@ -14,35 +14,35 @@ public class BoardService {
 	@Autowired private BoardRepository boardRepo;
 	
 	public int GetBoardListCount(HashMap<String, Object> cond) {
-		int result = boardRepo.GetBoardListCount(cond);
+		int result = boardRepo.getBoardListCount(cond);
 		return result;
 	}
 	
 	
 	public List<HashMap<String, Object>> GetBoardList(HashMap<String, Object> cond) {
-		List<HashMap<String, Object>> result = boardRepo.GetBoardList(cond);
+		List<HashMap<String, Object>> result = boardRepo.getBoardList(cond);
 		return result;
 	}
 	
 	
 	public void DelBoardList(HashMap<String, Object> cond) {
-		boardRepo.DelBoardList(cond);
+		boardRepo.delBoardList(cond);
 	}
 	
 	
 	public HashMap<String, Object> GetDetailData(HashMap<String, Object> cond) {
-		HashMap<String, Object> result = boardRepo.GetDetailData(cond);
+		HashMap<String, Object> result = boardRepo.getDetailData(cond);
 		return result;
 	}
 	
 	
 	public void ModifyDetailData(HashMap<String, Object> cond) {
-		boardRepo.ModifyDetailData(cond);
+		boardRepo.modifyDetailData(cond);
 	}
 	
 	
 	public void CreateDetailData(HashMap<String, Object> cond) {
-		boardRepo.CreateDetailData(cond);
+		boardRepo.createDetailData(cond);
 	}
 	
 }

@@ -3,58 +3,58 @@
 
 <mapper namespace="com.test01.repository.BoardRepository">
 
-	<select id="GetBoardListCount" resultType="Integer">
-		SELECT COUNT(idx) 
-		FROM board		
+	<select id="getBoardListCount" resultType="Integer">
+		SELECT COUNT(IDX) 
+		FROM BOARD		
 		<if test="searchword != null">
-			WHERE title LIKE CONCAT('%',#{searchword},'%') or content LIKE CONCAT('%',#{searchword},'%')		
+			WHERE TITLE LIKE CONCAT('%',#{searchword},'%') or CONTENT LIKE CONCAT('%',#{searchword},'%')		
 		</if>
 	</select>
 
-    <select id="GetBoardList" resultType="hashmap" parameterType="hashmap">
+    <select id="getBoardList" resultType="hashmap" parameterType="hashmap">
 	  	SELECT * 
-	  	FROM board
+	  	FROM BOARD
 		<if test="searchword != null">
-			WHERE title LIKE CONCAT('%',#{searchword},'%') or content LIKE CONCAT('%',#{searchword},'%')		
+			WHERE TITLE LIKE CONCAT('%',#{searchword},'%') or CONTENT LIKE CONCAT('%',#{searchword},'%')		
 		</if>
 	  	ORDER BY #{orderby}
-	  	limit #{viewMinIdx}, #{itemCountPerPage}
+	  	LIMIT #{viewMinIdx}, #{itemCountPerPage}
 	</select>
 	
-	<delete id="DelBoardList" parameterType="hashmap"> 
+	<delete id="delBoardList" parameterType="hashmap"> 
 	  	DELETE
-	  	FROM board
-		WHERE idx IN
+	  	FROM BOARD
+		WHERE IDX IN
 		  <foreach item="delidx" collection="delidxArray" index="index"
 		      open="(" separator="," close=")">
 		        #{delidx}
 		  </foreach>
 	</delete>
 	
-    <select id="GetDetailData" resultType="hashmap" parameterType="hashmap">
+    <select id="getDetailData" resultType="hashmap" parameterType="hashmap">
 	  	SELECT * 
-	  	FROM board 
-	  	WHERE idx = #{idx}
+	  	FROM BOARD 
+	  	WHERE IDX = #{idx}
 	</select>
 
-    <update id="ModifyDetailData" parameterType="hashmap">
-    	UPDATE board
+    <update id="modifyDetailData" parameterType="hashmap">
+    	UPDATE BOARD
     	<set>
     		<if test="modifyTitle != null">
-    		, title = #{modifyTitle}
+    		, TITLE = #{modifyTitle}
     		</if>
     		<if test="modifyContent != null">
-    		, content = #{modifyContent}
+    		, CONTENT = #{modifyContent}
     		</if>
     		<if test="modifyRegdate != null">
-    		, regdate = #{modifyRegdate}
+    		, REGDATE = #{modifyRegdate}
     		</if>
    		</set>   		
-   		where idx = #{modifyIdx}   		
+   		where IDX = #{modifyIdx}   		
 	</update>
 	
-	<insert id="CreateDetailData" parameterType="hashmap">  	
-	  	INSERT INTO board (title, content, writer, regdate)
+	<insert id="createDetailData" parameterType="hashmap">  	
+	  	INSERT INTO BOARD (TITLE, CONTENT, WRITER, REGDATE)
 	  	VALUES (#{createTitle}, #{createContent}, #{createWriter}, #{createRegdate})
 	</insert>
  

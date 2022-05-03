@@ -37,30 +37,40 @@
 			<tbody id="boardCreate">
 				<tr>
 					<td> idx </td>
-					<td> <text id="input_idx" style="width:99%; border:0; resize:none;"> 0 </text> </td>
+					<td> <text id="input_idx" style="width:99%; border:0; resize:none;"> idx </text> </td>
 				</tr>
 				<tr>
 					<td> title </td>
-					<td> <textarea id="input_title" placeholder="제목을 입력하세요." style="width:99%; border:0; resize:none;"></textarea> </td>
+					<td> <textarea id="input_title" style="width:99%; border:0; resize:none;" placeholder="제목을 입력하세요."></textarea> </td>
 				</tr>
 				<tr>
 					<td> content </td>
-					<td> <textarea id="input_content" placeholder="내용을 입력하세요." style="width:99%; height:100px; border:0; resize:none;"></textarea> </td>
+					<td> <textarea id="input_content" style="width:99%; height:100px; border:0; resize:none;" placeholder="내용을 입력하세요."></textarea> </td>
 				</tr>
 				<tr>
 					<td> writer </td>
-					<td> <text id="input_writer" style="width:99%; border:0; resize:none;"> 닉네임 </text> </td>
+					<td> <text id="input_writer" style="width:99%; border:0; resize:none;"> writer </text> </td>
 				</tr>
 				<tr>
 					<td> regdate </td>
-					<td> <text id="input_regdate" style="width:99%; border:0; resize:none;"> 작성 시간 </text> </td>
+					<td> <text id="input_regdate" style="width:99%; border:0; resize:none;"> regdate </text> </td>
 				</tr>
 			</tbody>
 
 		</table>
 		
 		<br/><br/>
-		<button> <a onclick="inputDataCheck()"> 게시글 생성!! </a> </button>
+		<button> <a onclick="inputDataCheckCreate()"> 게시글 생성!! </a> </button>
+		
+		
+		<iframe id="iframe1" name="iframe1" style="display:none"></iframe>		
+		
+		<form id="createform" action="/api/createdetaildataform" method="POST" style="display:none;" target="iframe1">
+			<input name="title" type="text" value="title" />
+			<input name="content" type="text" value="content" />
+			<input name="writer" type="text" value="writer" />
+			<input name="regdate" type="text" value="regdate" />
+		</form>
 		
 	</body>
 
@@ -74,35 +84,33 @@
 <!-- -------------------------------------------------------------------------------------------------------------- -->
 
 
-	// 데이터 입력 확인.
-	// 입력 데이터 생성.
-	function inputDataCheck() {
-	
-		if (document.getElementById("input_title").value == "" || document.getElementById("input_content").value == ""){
+	// 데이터 입력 확인 & 데이터 생성.
+	function inputDataCheckCreate() {
+		
+		if (document.getElementById("input_title").value == "" || 
+				document.getElementById("input_content").value == ""){
 			alert("제목과 내용을 모두 입력하세요.");
 			return;
 			
 		} else{
 			
-			_title = document.getElementById("input_title").value;
-			_content = document.getElementById("input_content").value;
 			_writer = document.getElementById("input_writer").innerText;
 			_regdate = new Date().toISOString().slice(0, 19).replace('T',' ');
 			
-			$.ajax({
-						type: "POST",
-						url: "http://localhost:8080/api/createdetaildata",
-						cache: false,
-						async: false,
-						data: {
-							title : _title,
-							content : _content,
-							writer : _writer,
-							regdate : _regdate
-						}
-			});
+			$("input[name=title]").val($("#input_title").val());
+			$("input[name=content]").val($("#input_content").val());
+			$("input[name=writer]").val(_writer);
+			$("input[name=regdate]").val(_regdate);
+			
+//			console.log($("input[name=title]").val());
+//			console.log($("input[name=content]").val());
+//			console.log($("input[name=writer]").val());
+//			console.log($("input[name=regdate]").val());			
+			
+			document.getElementById('createform').submit();
 			
 			alert("작성한 내용이 등록되었습니다.");
+			
 			location.href="/";
 		}
 		

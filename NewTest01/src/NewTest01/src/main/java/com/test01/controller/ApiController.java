@@ -6,8 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.test01.service.BoardService;
@@ -147,7 +149,7 @@ public class ApiController {
 	
 	
 	
-	@RequestMapping(value="/CreateDetailData", method=RequestMethod.POST)	
+	@RequestMapping(value="/createdetaildata", method=RequestMethod.POST)	
 	public void createdetaildata(HttpServletRequest request) {
 		
 		String title = request.getParameter("title");
@@ -165,5 +167,35 @@ public class ApiController {
 
 	}
 	
+	
+	
+	@RequestMapping(value="/createdetaildataform")
+	public void createdetaildataForm(@RequestParam("title") String title, @RequestParam("content") String content, 
+			@RequestParam("writer") String writer, @RequestParam("regdate") String regdate, Model model) {
+		
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("createTitle", title);
+		param.put("createContent",content);
+		param.put("createWriter",writer);
+		param.put("createRegdate", regdate);
+		
+		boardService.CreateDetailData(param);
+		
+	}
+	
+	
+	@RequestMapping(value="/modifydetaildataform")	
+	public void ModifyDetailDataForm(@RequestParam("idx") String idx, @RequestParam("title") String title, 
+			@RequestParam("content") String content, @RequestParam("regdate") String regdate, Model model) {
+		
+		HashMap<String, Object> param = new HashMap<String, Object>();
+		param.put("modifyIdx", idx);
+		param.put("modifyTitle", title);
+		param.put("modifyContent",content);
+		param.put("modifyRegdate", regdate);
+		
+		boardService.ModifyDetailData(param);
+
+	}	
 
 }

@@ -85,7 +85,7 @@
 
 		$.ajax({
 					type: "GET",
-					url: "http://localhost:8080/api/getdetaildata",
+					url: "/api/getdetaildata",
 					cache: false,
 					async: false,
 					data: {
@@ -105,23 +105,23 @@
 	
 		html += "<tr>"
 				+ "<td> idx </td>"
-				+ "<td> " + detailData.idx + " </td>"
+				+ "<td> " + detailData.IDX + " </td>"
 				+ "</tr>"
 				+ "<tr>"
 				+ "<td> title </td>"
-				+ "<td> " + detailData.title + " </td>"
+				+ "<td> " + detailData.TITLE + " </td>"
 				+ "</tr>"
 				+ "<tr>"
 				+ "<td> content </td>"
-				+ "<td> " + detailData.content + " </td>"
+				+ "<td> " + detailData.CONTENT + " </td>"
 				+ "</tr>"
 				+ "<tr>"
 				+ "<td> writer </td>"
-				+ "<td> " + detailData.writer + " </td>"
+				+ "<td> " + detailData.WRITER + " </td>"
 				+ "</tr>"
 				+ "<tr>"
 				+ "<td> regdate </td>"
-				+ "<td> " + detailData.regdate.replace('T',' ').substring(0, 19) + " </td>"
+				+ "<td> " + detailData.REGDATE.replace('T',' ').substring(0, 19) + " </td>"
 				+ "</tr>";
 			
 		//console.log(html);

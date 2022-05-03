@@ -6,14 +6,6 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: jdbc:mysql://localhost:3306/testdb?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
-    #username: root
-    #password: thghtjr0.
-    url: jdbc:mysql://ntsphere.com:3306/theptl?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
-    username: theptl
-    password: greate.Pool@1
 
 
 mybatis:
