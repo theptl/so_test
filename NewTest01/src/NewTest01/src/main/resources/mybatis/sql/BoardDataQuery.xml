@@ -3,7 +3,7 @@
 
 <mapper namespace="com.test01.repository.BoardRepository">
 
-	<select id="getBoardListCount" resultType="Integer">
+	<select id="getBoardListCount" resultType="Integer" parameterType="hashmap">
 		SELECT COUNT(IDX) 
 		FROM BOARD		
 		<if test="searchword != null">
@@ -12,6 +12,16 @@
 	</select>
 
     <select id="getBoardList" resultType="hashmap" parameterType="hashmap">
+	  	SELECT * 
+	  	FROM BOARD
+		<if test="searchword != null">
+			WHERE TITLE LIKE CONCAT('%',#{searchword},'%') or CONTENT LIKE CONCAT('%',#{searchword},'%')		
+		</if>
+	  	ORDER BY #{orderby}
+	  	LIMIT #{viewMinIdx}, #{itemCountPerPage}
+	</select>
+	
+    <select id="getBoardListVo" resultType="com.test01.controller.BoardVo" parameterType="hashmap">
 	  	SELECT * 
 	  	FROM BOARD
 		<if test="searchword != null">

@@ -5,12 +5,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.test01.controller.BoardVo;
+
 @Repository("boardRepository")
 public interface BoardRepository {
 	
 	public int getBoardListCount(HashMap<String, Object> cond);
 	
 	public List<HashMap<String, Object>> getBoardList(HashMap<String, Object> cond);
+	
+	public List<BoardVo> getBoardListVo(HashMap<String, Object> cond);
 	
 	public void delBoardList(HashMap<String, Object> cond);
 	

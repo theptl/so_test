@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.test01.service.BoardService;
 
@@ -70,7 +71,7 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/getboardlist", method=RequestMethod.GET)	
-	public List<HashMap<String,Object>> GetBoardList(HttpServletRequest request) {
+	public List<BoardVo> GetBoardList(HttpServletRequest request) {
 		
 		String orderby = request.getParameter("orderby");
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
@@ -89,7 +90,7 @@ public class ApiController {
 		param.put("itemCountPerPage", itemCountPerPage);
 		param.put("searchword", searchword);
 		
-		List<HashMap<String, Object>> result = boardService.GetBoardList(param);
+		List<BoardVo> result = boardService.GetBoardListVo(param);
 		
 		return result;
 
@@ -150,18 +151,19 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/createdetaildata", method=RequestMethod.POST)	
-	public void createdetaildata(HttpServletRequest request) {
+//	public void createdetaildata(HttpServletRequest request) {
+	public void createdetaildata(BoardVo boardVO) {
 		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		String writer = request.getParameter("writer");
-		String regdate = request.getParameter("regdate");
+//		String title = request.getParameter("title");
+//		String content = request.getParameter("content");
+//		String writer = request.getParameter("writer");
+//		String regdate = request.getParameter("regdate");
 			
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("createTitle", title);
-		param.put("createContent",content);
-		param.put("createWriter",writer);
-		param.put("createRegdate", regdate);
+		param.put("createTitle", boardVO.getTitle());
+		param.put("createContent", boardVO.getContent());
+		param.put("createWriter", boardVO.getWriter());
+		param.put("createRegdate", boardVO.getRegdate());
 		
 		boardService.CreateDetailData(param);
 
@@ -170,32 +172,40 @@ public class ApiController {
 	
 	
 	@RequestMapping(value="/createdetaildataform")
-	public void createdetaildataForm(@RequestParam("title") String title, @RequestParam("content") String content, 
-			@RequestParam("writer") String writer, @RequestParam("regdate") String regdate, Model model) {
+//	public RedirectView createdetaildataForm(@RequestParam("title") String title, @RequestParam("content") String content, 
+//			@RequestParam("writer") String writer, @RequestParam("regdate") String regdate, Model model) {
+	public RedirectView createdetaildataForm(BoardVo boardVO, Model model) {
 		
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("createTitle", title);
-		param.put("createContent",content);
-		param.put("createWriter",writer);
-		param.put("createRegdate", regdate);
+		param.put("createTitle", boardVO.getTitle());
+		param.put("createContent", boardVO.getContent());
+		param.put("createWriter", boardVO.getWriter());
+		param.put("createRegdate", boardVO.getRegdate());
 		
 		boardService.CreateDetailData(param);
+		
+//		return "redirect:home";
+		return new RedirectView("/home");
 		
 	}
 	
 	
 	@RequestMapping(value="/modifydetaildataform")	
-	public void ModifyDetailDataForm(@RequestParam("idx") String idx, @RequestParam("title") String title, 
-			@RequestParam("content") String content, @RequestParam("regdate") String regdate, Model model) {
+//	public RedirectView ModifyDetailDataForm(@RequestParam("idx") String idx, @RequestParam("title") String title, 
+//			@RequestParam("content") String content, @RequestParam("regdate") String regdate, Model model) {
+	public RedirectView ModifyDetailDataForm(BoardVo boardVO, Model model) {
 		
 		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("modifyIdx", idx);
-		param.put("modifyTitle", title);
-		param.put("modifyContent",content);
-		param.put("modifyRegdate", regdate);
+		param.put("modifyIdx", boardVO.getIdx());
+		param.put("modifyTitle", boardVO.getTitle());
+		param.put("modifyContent",boardVO.getContent());
+		param.put("modifyRegdate", boardVO.getRegdate());
 		
 		boardService.ModifyDetailData(param);
+		
+//		return "redirect:detailpage?idx=" + idx;
+		return new RedirectView("/detailpage?idx=" + boardVO.getIdx());
 
-	}	
+	}
 
 }

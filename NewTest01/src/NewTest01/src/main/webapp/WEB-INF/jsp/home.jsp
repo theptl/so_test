@@ -189,13 +189,13 @@
 					
 				},
 				success: function (result) {
-	                boardListData = result;
+					boardListData = result;
 				}
 			
 		});
-		
-		//console.log(boardListData);
 
+
+		console.log(boardListData);
 		
 		$("#boardList").empty();
 		
@@ -204,13 +204,13 @@
 		$.each(boardListData, function(index, item){
 		
 			html += "<tr>"
-					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.IDX + "' value='" + item.IDX + "' /> </td>"
-					+ "<td>" + item.IDX + "</td>"
-					+ "<td>" + item.TITLE + "</td>"
-					+ "<td> <a href='/detailpage?idx=" + item.IDX + "';'>" + item.CONTENT + "</td>"
-					+ "<td>" + item.WRITER + "</td>"
-					+ "<td>" + item.REGDATE.replace('T',' ').substring(0, 19) + "</td>"
-					+ "<td> <button onclick=" + "location.href='/modifypage?idx=" + item.IDX + "';>" + "바로가기 </button> </td>"
+					+ "<td> <input type='checkbox' name='tdCheck' data-idx='" + item.idx + "' value='" + item.idx + "' /> </td>"
+					+ "<td>" + item.idx + "</td>"
+					+ "<td>" + item.title + "</td>"
+					+ "<td> <a href='/detailpage?idx=" + item.idx + "';'>" + item.content + "</td>"
+					+ "<td>" + item.writer + "</td>"
+					+ "<td>" + item.regdate.replace('T',' ').substring(0, 19) + "</td>"
+					+ "<td> <button onclick=" + "location.href='/modifypage?idx=" + item.idx + "';>" + "바로가기 </button> </td>"
 					+ "</tr>";
 		})
 		

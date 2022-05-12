@@ -62,10 +62,7 @@
 		<br/><br/>
 		<button> <a onclick="inputDataCheckCreate()"> 게시글 생성!! </a> </button>
 		
-		
-		<iframe id="iframe1" name="iframe1" style="display:none"></iframe>		
-		
-		<form id="createform" action="/api/createdetaildataform" method="POST" style="display:none;" target="iframe1">
+		<form id="createform" action="/api/createdetaildataform" method="POST" style="display:none;">
 			<input name="title" type="text" value="title" />
 			<input name="content" type="text" value="content" />
 			<input name="writer" type="text" value="writer" />
@@ -109,9 +106,9 @@
 			
 			document.getElementById('createform').submit();
 			
-			alert("작성한 내용이 등록되었습니다.");
+//			alert("작성한 내용이 등록되었습니다.");
 			
-			location.href="/";
+//			location.href="/";
 		}
 		
 	}

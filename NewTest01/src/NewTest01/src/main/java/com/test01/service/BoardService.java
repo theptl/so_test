@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.test01.controller.BoardVo;
 import com.test01.repository.BoardRepository;
 
 @Service
@@ -21,6 +22,12 @@ public class BoardService {
 	
 	public List<HashMap<String, Object>> GetBoardList(HashMap<String, Object> cond) {
 		List<HashMap<String, Object>> result = boardRepo.getBoardList(cond);
+		return result;
+	}
+	
+	
+	public List<BoardVo> GetBoardListVo(HashMap<String, Object> cond) {
+		List<BoardVo> result = boardRepo.getBoardListVo(cond);
 		return result;
 	}
 	
