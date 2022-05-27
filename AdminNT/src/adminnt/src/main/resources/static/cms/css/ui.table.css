@@ -1,0 +1,41 @@
+﻿@charset "utf-8";
+
+/* --- table --- */
+.table_wrapper{width:100%; border-collapse:collapse; margin-bottom:25px; overflow-x:auto;}
+.table_wrapper th,
+.table_wrapper td{white-space:nowrap; border:1px solid #e7ecf1; font-size:14px; padding:8px;}
+.table_wrapper td a{text-decoration:underline; white-space: initial;}
+.table_wrapper.ta_c td{text-align:center;}
+.table_wrapper .text01{white-space:normal;}
+
+/* --- table - type01 --- */
+.table_wrapper.type01 th{background-color:#f1f4f7; font-weight:400; color:#3f444a; text-align:center !important}
+.table_wrapper.type01 th .ess{color:#337ab7; margin:0 5px;}
+.table_wrapper.type01 td{vertical-align:middle;}
+
+
+/* --- table calendar --- 201800131*/
+.date_calendar{display:inline-block; margin-right:10px;}
+.date_calendar img{cursor:pointer; position:relative; left:-1px;}
+.date_calendar .form-text{width:100px; display:inline-block; vertical-align:middle;}
+.date_calendar .input-group-btn{display:none; margin-left:-6px;}
+
+/* --- table telephone --- */
+.table_tel{display:inline-block;}
+.table_tel .form-text{width:100px; display:inline-block; vertical-align:middle;}
+
+/* --- table Email --- */
+.table_email{display:inline-block;}
+.table_email .form-text:first-child{width:120px;}
+.table_email .form-text{width:150px; display:inline-block; vertical-align:middle;}
+
+/* --- table image --- */
+.bd_img{width:70px; height:70px;}
+
+.table_top_wrapper{position:relative; margin:0 0 10px; }
+.table_top_wrapper .table_top_left{}
+.table_top_wrapper .table_top_left p{font-size:14px; color:#333; font-weight:normal}
+.table_top_wrapper .table_top_right{position:absolute; right:0; top:-10px}
+.table_top_wrapper .table_top_right p{display:inline-block; font-size:14px; font-weight:300; color:#666; letter-spacing:0}
+
+.table_caution{font-size:14px; color:#333;}

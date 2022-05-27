@@ -1,0 +1,59 @@
+﻿@charset "utf-8";
+
+/* --- form - text --- */
+.form-text{width:100%; height:34px; padding:6px 12px; background-color:#fff; border:1px solid #c2cad8; font-size:14px; line-height:1.42857; color:#555; display:inline-block; box-sizing:border-box;}
+.form-text.wd30{width:30%;}
+.form-file.wd30 input{width:30%; display:inline-block;}
+
+/* --- form - radio --- */
+.form-radio{display:inline-block; margin-right:15px; position:relative; box-sizing:border-box;}
+.form-radio label input[type=radio] {visibility: hidden; position: absolute; border-radius:0 !important;}
+.form-radio label{cursor:pointer; font-weight:400; display:inline-block; max-width:100%;}
+.form-radio label span{display:block;}
+.form-radio label span:before{content:''; background:url(../images/common/input_sprite.png) 0 -19px no-repeat; width:19px; height:19px; display:inline-block; vertical-align:top; margin-right:5px;}
+.form-radio label input[type=radio]:checked+span:before{background-position:-19px -19px}
+
+/* --- form - radio01 --- */
+.form-radio01{display:inline-block; position:relative; box-sizing:border-box;}
+.form-radio01 label input[type=radio] {visibility: hidden; position: absolute; border-radius:0 !important;}
+.form-radio01 label{cursor:pointer; font-weight:400; display:inline-block; max-width:100%;}
+.form-radio01 label span{display:block;}
+.form-radio01 label span:before{content:''; background:url(../images/common/input_sprite.png) 0 -19px no-repeat; width:19px; height:19px; display:inline-block; vertical-align:top; margin-right:5px;}
+.form-radio01 label input[type=radio]:checked+span:before{background-position:-19px -19px}
+
+
+/* --- form - checkbox --- */
+.form-checkbox{display:inline-block; margin-right:20px; position:relative; box-sizing:border-box;}
+.form-checkbox label input[type=checkbox] {visibility: hidden; position: absolute; border-radius:0 !important;}
+.form-checkbox label{cursor:pointer; font-weight:400; display:inline-block; max-width:100%;}
+.form-checkbox label span{display:block;}
+.form-checkbox label span:before{content:''; background:url(../images/common/input_sprite.png) 0 0 no-repeat; width:19px; height:19px; display:inline-block; vertical-align:top; margin-right:5px;}
+.form-checkbox label input[type=checkbox]:checked+span:before{background-position:-19px 0}
+
+.form-checkbox02{display:inline-block; position:relative; box-sizing:border-box;}
+.form-checkbox02 label input[type=checkbox] {visibility: hidden; position: absolute; border-radius:0 !important;}
+.form-checkbox02 label span{display:block;}
+.form-checkbox02 label span:before{content:''; background:url(../images/common/input_sprite.png) 0 0 no-repeat; width:19px; height:19px; display:inline-block; vertical-align:top; cursor:pointer;}
+.form-checkbox02 label input[type=checkbox]:checked+span:before{background-position:-19px 0}
+
+
+/* --- form - select --- */
+.form-select{width:100%; height:34px; font-size:14px; line-height:1.42857; color:#555; display:block; padding:6px 12px; background-color:#fff; border:1px solid #c2cad8;}
+.col2 .form-select{width:49.5%; float:left;}
+.col2 .form-select + .form-select{margin-left:1%;}
+.col3 .form-select{width:33%; float:left;}
+.col3 .form-select + .form-select{margin-left:0.5%;}
+.clearfix{clear:both;}
+
+/* --- form - textarea --- */
+.form_textarea{border:1px solid #c2cad8; background-color:#fff; padding:6px 12px; width:100%; box-sizing:border-box;    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; font-size:14px; line-height:1.42857; color:#555; display:block;}
+
+
+/* --- form - text --- */
+.form-file{}
+.form-file input[type=file]{display:inline-block; padding:1px 0; box-sizing:border-box; border:1px solid #ccc;}
+.form-file.add{padding:5px 0}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+	.form-file input[type=file]{border:0; background-color:#fff}
+	.form-file input[type=file]::-ms-browse{border:1px solid #a5a5a5; height:23px;}
+}
